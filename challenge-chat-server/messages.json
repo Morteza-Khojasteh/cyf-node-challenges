@@ -1,0 +1,27 @@
+[
+    {
+      "id": 1,
+      "from": "John Doe",
+      "text": "Hi CYF!"
+    },
+    {
+      "id": 2,
+      "from": "Bob williams",
+      "text": "Hello John"
+    },
+    {
+      "id": 3,
+      "from": "Shanon Jackson",
+      "text": "How are you?"
+    },
+    {
+        "id": 4,
+        "from": "Jack Peterson",
+        "text": "Hi all!"
+    },
+    {
+        "id": 5,
+        "from": "Emeli Rabson",
+        "text": "active"
+    }
+]
