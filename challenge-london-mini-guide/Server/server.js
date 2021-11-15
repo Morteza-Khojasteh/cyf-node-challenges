@@ -1,84 +1,37 @@
 const express = require("express");
 const app = express();
-const stratford = require("./data/Stratford.json");
-const harrow = require("./data/Harrow.json");
-const heathrow = require("./data/Heathrow.json");
+const fs = require("fs");
 
-const PORT = process.env.PORT || 3000 ; 
-
+const PORT = process.env.PORT || 3000;
 
 // Home Page
 app.get("/", (req, res) => {
-    res.send(" welecome to the server!");
+  res.send("Welecome to the server!");
 });
 
-
-// pharmcies 
-app.get("/:city/pharmcies", (req, res) => {
-    const found = req.params.city;
-    if (found === "stratford") {
-      res.send(stratford.pharmacies);
-    } else if (found === "harrow" ){
-        res.send(harrow.pharmacies);
-    } else if (found === "heathrow" ){
-        res.send(heathrow.pharmacies);
+// Cities and Catagories
+app.get("/:city/:category", (req, res) => {
+  const city = req.params.city;
+  const category = req.params.category;
+  const cityPath = `./data/${city}.json`;
+  if (fs.existsSync(cityPath)) {
+    const cityData = require(cityPath);
+    if (cityData[category]) {
+      console.log(cityData[category]);
+      res.send(cityData[category]);
     } else {
-      res
-        .status(400)
-        .json({ msg: `There isn't: ${req.params.city}` });
+      res.status(404).send({
+        msg: `We could not find the ${category}`,
+      });
     }
-  });
-
-// colleges 
-app.get("/:city/colleges", (req, res) => {
-    const found = req.params.city;
-    if (found === "stratford") {
-      res.send(stratford.pharmacies);
-    } else if (found === "harrow" ){
-        res.send(harrow.pharmacies);
-    } else if (found === "heathrow" ){
-        res.send(heathrow.pharmacies);
-    } else {
-      res
-        .status(400)
-        .json({ msg: `There isn't: ${req.params.city}` });
-    }
+  } else {
+    res.status(404).send({
+      msg: `We could not find the ${city}`,
+    });
+  }
 });
-  
-// doctors 
-app.get("/:city/doctors", (req, res) => {
-    const found = req.params.city;
-    if (found === "stratford") {
-      res.send(stratford.pharmacies);
-    } else if (found === "harrow" ){
-        res.send(harrow.pharmacies);
-    } else if (found === "heathrow" ){
-        res.send(heathrow.pharmacies);
-    } else {
-      res
-        .status(400)
-        .json({ msg: `There isn't: ${req.params.city}` });
-    }
-});
-
-// hospitals 
-app.get("/:city/hospitals", (req, res) => {
-    const found = req.params.city;
-    if (found === "stratford") {
-      res.send(stratford.pharmacies);
-    } else if (found === "harrow" ){
-        res.send(harrow.pharmacies);
-    } else if (found === "heathrow" ){
-        res.send(heathrow.pharmacies);
-    } else {
-      res
-        .status(400)
-        .json({ msg: `There isn't: ${req.params.city}` });
-    }
-});
-
 
 //  listening Port
 app.listen(PORT, () => {
-    console.log(`Server Started On Port ${PORT}`);
-  });
+  console.log(`Server Started On Port ${PORT}`);
+});
